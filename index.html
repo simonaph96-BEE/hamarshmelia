@@ -22,7 +22,7 @@
             padding: 20px;
         }
 
-        /* Main Flyer Container */
+        /* --- Main Flyer Container --- */
         .flyer-container {
             position: relative;
             width: 100%;
@@ -35,7 +35,15 @@
             border-radius: 12px;
         }
 
-        /* Background Image Layer */
+        /* --- Page Wrapper Styles --- */
+        /* Used to replace display:contents for better stability */
+        #page-flyer {
+            width: 100%;
+            height: 100%;
+            position: relative; /* Acts as the anchor for absolute children */
+        }
+
+        /* --- Background Image --- */
         .bg-image {
             position: absolute;
             top: 0;
@@ -46,10 +54,11 @@
             background-size: 120%; 
             background-position: -70px bottom; 
             background-repeat: no-repeat;
+            background-color: #ddd; /* Fallback color */
             z-index: 1;
         }
 
-        /* The Semi-Transparent Right Overlay */
+        /* --- Overlay Panel (Desktop) --- */
         .overlay-panel {
             position: absolute;
             top: 0;
@@ -152,9 +161,9 @@
             transform: translateY(-2px);
         }
 
-        /* PAGES GENERAL STYLING */
+        /* --- PAGES GENERAL STYLING (Order & Success) --- */
         #page-order, #page-success {
-            display: none;
+            display: none; /* Hidden by default */
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
@@ -205,6 +214,10 @@
             gap: 24px;
         }
 
+        .form-container .form-field:last-of-type {
+            margin-top: -12px;
+        }
+
         .form-field {
             display: flex;
             flex-direction: column;
@@ -227,6 +240,12 @@
             background-color: #fff;
         }
 
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            outline: none;
+            border-color: #938d84;
+            box-shadow: 0 0 0 3px rgba(147, 141, 132, 0.1);
+        }
+
         .box-config {
             border: 1px solid #e9e4dd;
             padding: 20px;
@@ -242,12 +261,32 @@
             color: #938d84;
             border-bottom: 1px solid #eee;
             padding-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .flavor-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+            align-items: start;
+        }
+
+        .box-config .form-field {
+            gap: 4px;
+        }
+
+        .box-config .form-field label {
+            min-height: 1.5em; 
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 0;
+        }
+
+        .flavor-selection select {
+            padding: 10px;
+            font-size: 0.95rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
         }
 
         .submit-btn {
@@ -266,7 +305,7 @@
 
         .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* SUCCESS PAGE SPECIFIC */
+        /* --- Success Page --- */
         .success-content {
             display: flex;
             flex-direction: column;
@@ -311,11 +350,96 @@
             font-weight: 700;
         }
 
-        @media (max-width: 450px) {
-            .overlay-panel { width: 55%; padding-left: 15px; }
-            .headline-top { font-size: 2rem; }
-            .highlight-box { font-size: 2.8rem; }
-            .flavor-selection { grid-template-columns: 1fr; }
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                background-color: #fff;
+            }
+
+            .flyer-container {
+                flex-direction: column;
+                aspect-ratio: auto;
+                height: 100vh; /* Fill screen height on mobile */
+                max-width: 100%;
+                border-radius: 0;
+                overflow-y: auto; /* Allow scrolling inside */
+                box-shadow: none;
+            }
+
+            /* Wrapper adjustments for mobile flex layout */
+            #page-flyer {
+                display: flex; /* Override block for flex column layout on mobile */
+                flex-direction: column;
+            }
+
+            /* Image moves to top */
+            .bg-image {
+                position: relative;
+                width: 100%;
+                height: 35vh; /* Takes top 35% of screen */
+                background-position: center bottom;
+                /* Reset zoom for mobile to see content better */
+                background-size: cover; 
+            }
+
+            /* Overlay becomes bottom content */
+            .overlay-panel {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 65vh; /* Takes remaining space */
+                background: white;
+                backdrop-filter: none;
+                padding: 30px 25px 50px 25px;
+                flex: 1; /* Allow it to grow */
+            }
+
+            /* Text Adjustments */
+            .headline-container {
+                margin-top: 10px;
+                margin-bottom: 30px;
+            }
+
+            .headline-top {
+                font-size: 2.2rem;
+            }
+
+            .highlight-box {
+                font-size: 3rem;
+                margin-left: -25px; /* Pull to edge */
+                width: calc(100% + 50px);
+                padding-left: 25px;
+            }
+
+            .info-title {
+                font-size: 1.4rem;
+            }
+
+            .nav-button {
+                width: 100%; /* Full width button on mobile */
+                padding: 16px;
+                font-size: 1rem;
+            }
+
+            /* Form Page Adjustments */
+            #page-order {
+                padding: 20px 15px;
+            }
+
+            .order-title {
+                font-size: 2rem;
+            }
+
+            .form-field input, .form-field select, .form-field textarea {
+                font-size: 16px; /* Prevents zoom on iOS inputs */
+            }
+
+            .flavor-selection {
+                grid-template-columns: 1fr; /* Stack flavor selects */
+            }
+            
+            .box-config .form-field label { min-height: 0; }
         }
     </style>
 </head>
@@ -323,7 +447,7 @@
 
     <div class="flyer-container">
         <!-- PAGE 1: THE FLYER -->
-        <div id="page-flyer" style="display: contents;">
+        <div id="page-flyer">
             <div class="bg-image"></div>
             <div class="overlay-panel">
                 <div class="headline-container">
@@ -434,12 +558,21 @@
         const FLAVORS = ["וניל מדגסקר וקרמל עדין", "קוקוס", "דובדבן", "משמש", "שוקולד חלב", "אננס"];
 
         function showPage(pageId) {
-            document.getElementById('page-flyer').style.display = pageId === 'flyer' ? 'contents' : 'none';
-            document.getElementById('page-order').style.display = pageId === 'order' ? 'flex' : 'none';
-            document.getElementById('page-success').style.display = pageId === 'success' ? 'flex' : 'none';
-            if (pageId !== 'flyer') {
-                const scrollTarget = pageId === 'order' ? document.getElementById('page-order') : document.getElementById('page-success');
-                scrollTarget.scrollTop = 0;
+            // Logic updated to remove display: contents hack
+            if (pageId === 'flyer') {
+                document.getElementById('page-flyer').style.display = ''; // Let CSS control it (block or flex)
+                document.getElementById('page-order').style.display = 'none';
+                document.getElementById('page-success').style.display = 'none';
+            } else if (pageId === 'order') {
+                document.getElementById('page-flyer').style.display = 'none';
+                document.getElementById('page-order').style.display = 'flex';
+                document.getElementById('page-success').style.display = 'none';
+                document.getElementById('page-order').scrollTop = 0;
+            } else if (pageId === 'success') {
+                document.getElementById('page-flyer').style.display = 'none';
+                document.getElementById('page-order').style.display = 'none';
+                document.getElementById('page-success').style.display = 'flex';
+                document.getElementById('page-success').scrollTop = 0;
             }
         }
 
