@@ -35,12 +35,10 @@
             border-radius: 12px;
         }
 
-        /* --- Page Wrapper Styles --- */
-        /* Used to replace display:contents for better stability */
         #page-flyer {
             width: 100%;
             height: 100%;
-            position: relative; /* Acts as the anchor for absolute children */
+            position: relative;
         }
 
         /* --- Background Image --- */
@@ -54,7 +52,7 @@
             background-size: 120%; 
             background-position: -70px bottom; 
             background-repeat: no-repeat;
-            background-color: #ddd; /* Fallback color */
+            background-color: #ddd;
             z-index: 1;
         }
 
@@ -75,7 +73,6 @@
             color: #000;
         }
 
-        /* Headline Section */
         .headline-container {
             margin-top: 80px;
             margin-bottom: 50px;
@@ -101,7 +98,6 @@
             text-transform: lowercase;
         }
 
-        /* Info/Details Section */
         .info-section {
             display: flex;
             flex-direction: column;
@@ -161,9 +157,9 @@
             transform: translateY(-2px);
         }
 
-        /* --- PAGES GENERAL STYLING (Order & Success) --- */
+        /* --- PAGES GENERAL STYLING --- */
         #page-order, #page-success {
-            display: none; /* Hidden by default */
+            display: none;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
@@ -212,10 +208,6 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
-        }
-
-        .form-container .form-field:last-of-type {
-            margin-top: -12px;
         }
 
         .form-field {
@@ -268,7 +260,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            align-items: start;
+            /* Ensure children (form-fields) align at the bottom of the grid row */
+            align-items: end;
         }
 
         .box-config .form-field {
@@ -280,6 +273,7 @@
             display: flex;
             align-items: flex-end;
             margin-bottom: 0;
+            line-height: 1.2;
         }
 
         .flavor-selection select {
@@ -287,6 +281,7 @@
             font-size: 0.95rem;
             background-color: #fff;
             border: 1px solid #ddd;
+            height: 45px; /* Fixed height for consistency */
         }
 
         .submit-btn {
@@ -360,83 +355,58 @@
             .flyer-container {
                 flex-direction: column;
                 aspect-ratio: auto;
-                height: 100vh; /* Fill screen height on mobile */
+                height: 100vh;
                 max-width: 100%;
                 border-radius: 0;
-                overflow-y: auto; /* Allow scrolling inside */
+                overflow-y: auto;
                 box-shadow: none;
             }
 
-            /* Wrapper adjustments for mobile flex layout */
             #page-flyer {
-                display: flex; /* Override block for flex column layout on mobile */
+                display: flex;
                 flex-direction: column;
             }
 
-            /* Image moves to top */
             .bg-image {
                 position: relative;
                 width: 100%;
-                height: 35vh; /* Takes top 35% of screen */
+                height: 35vh;
                 background-position: center bottom;
-                /* Reset zoom for mobile to see content better */
                 background-size: cover; 
             }
 
-            /* Overlay becomes bottom content */
             .overlay-panel {
                 position: relative;
                 width: 100%;
                 height: auto;
-                min-height: 65vh; /* Takes remaining space */
+                min-height: 65vh;
                 background: white;
                 backdrop-filter: none;
                 padding: 30px 25px 50px 25px;
-                flex: 1; /* Allow it to grow */
+                flex: 1;
             }
 
-            /* Text Adjustments */
-            .headline-container {
-                margin-top: 10px;
-                margin-bottom: 30px;
-            }
-
-            .headline-top {
-                font-size: 2.2rem;
-            }
-
+            .headline-top { font-size: 2.2rem; }
             .highlight-box {
                 font-size: 3rem;
-                margin-left: -25px; /* Pull to edge */
+                margin-left: -25px;
                 width: calc(100% + 50px);
                 padding-left: 25px;
             }
 
-            .info-title {
-                font-size: 1.4rem;
-            }
-
             .nav-button {
-                width: 100%; /* Full width button on mobile */
+                width: 100%;
                 padding: 16px;
                 font-size: 1rem;
             }
 
-            /* Form Page Adjustments */
-            #page-order {
-                padding: 20px 15px;
-            }
-
-            .order-title {
-                font-size: 2rem;
-            }
-
-            .form-field input, .form-field select, .form-field textarea {
-                font-size: 16px; /* Prevents zoom on iOS inputs */
-            }
+            #page-order { padding: 20px 15px; }
+            .order-title { font-size: 2rem; }
+            .form-field input, .form-field select, .form-field textarea { font-size: 16px; }
 
             .flavor-selection {
-                grid-template-columns: 1fr; /* Stack flavor selects */
+                grid-template-columns: 1fr;
+                align-items: stretch; /* Stacked, so take full width */
             }
             
             .box-config .form-field label { min-height: 0; }
@@ -529,15 +499,12 @@
         <!-- PAGE 3: SUCCESS PAGE -->
         <div id="page-success">
             <div class="success-content">
-                <!-- Simple SVG Marshmallow Drawing -->
                 <svg class="marshmallow-icon" viewBox="0 0 100 100">
                     <rect x="25" y="30" width="50" height="45" rx="10" fill="#faf3f0" stroke="#938d84" stroke-width="2" />
                     <path d="M25 40 Q50 35 75 40" fill="none" stroke="#eee" stroke-width="1" />
-                    <!-- Face -->
                     <circle cx="40" cy="50" r="2" fill="#938d84" />
                     <circle cx="60" cy="50" r="2" fill="#938d84" />
                     <path d="M45 60 Q50 63 55 60" fill="none" stroke="#938d84" stroke-width="1.5" stroke-linecap="round" />
-                    <!-- Blush -->
                     <circle cx="35" cy="55" r="3" fill="#ffd1dc" opacity="0.6" />
                     <circle cx="65" cy="55" r="3" fill="#ffd1dc" opacity="0.6" />
                 </svg>
@@ -555,12 +522,11 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxF45KZbfvsipRfcBqLQ1suUTKlq1Eba3Zfe6WTLNf7w0LAe8Q4hyu8LxtfsP4U23ev0g/exec";
-        const FLAVORS = ["וניל מדגסקר וקרמל עדין", "קוקוס", "דובדבן", "משמש", "שוקולד חלב", "אננס"];
+        const FLAVORS = ["וניל מדגסקר וקרמל עדין", "קוקוס", "דובדבן", "שוקולד חלב", "אננס"];
 
         function showPage(pageId) {
-            // Logic updated to remove display: contents hack
             if (pageId === 'flyer') {
-                document.getElementById('page-flyer').style.display = ''; // Let CSS control it (block or flex)
+                document.getElementById('page-flyer').style.display = ''; 
                 document.getElementById('page-order').style.display = 'none';
                 document.getElementById('page-success').style.display = 'none';
             } else if (pageId === 'order') {
