@@ -260,7 +260,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            /* Ensure children (form-fields) align at the bottom of the grid row */
             align-items: end;
         }
 
@@ -281,7 +280,7 @@
             font-size: 0.95rem;
             background-color: #fff;
             border: 1px solid #ddd;
-            height: 45px; /* Fixed height for consistency */
+            height: 45px; 
         }
 
         .submit-btn {
@@ -370,7 +369,7 @@
             .bg-image {
                 position: relative;
                 width: 100%;
-                height: 35vh;
+                height: 30vh; /* Reduced from 35vh to bring content up */
                 background-position: center bottom;
                 background-size: cover; 
             }
@@ -379,25 +378,35 @@
                 position: relative;
                 width: 100%;
                 height: auto;
-                min-height: 65vh;
+                min-height: 70vh;
                 background: white;
                 backdrop-filter: none;
-                padding: 30px 25px 50px 25px;
+                padding: 15px 25px 40px 25px; /* Reduced top padding */
                 flex: 1;
             }
 
-            .headline-top { font-size: 2.2rem; }
+            .headline-container {
+                margin-top: 20px; /* Reduced margin */
+                margin-bottom: 30px;
+            }
+
+            .headline-top { font-size: 2rem; }
             .highlight-box {
-                font-size: 3rem;
+                font-size: 2.8rem;
                 margin-left: -25px;
                 width: calc(100% + 50px);
                 padding-left: 25px;
+            }
+
+            .info-section {
+                gap: 15px; /* Tighter gap */
             }
 
             .nav-button {
                 width: 100%;
                 padding: 16px;
                 font-size: 1rem;
+                margin-top: 10px;
             }
 
             #page-order { padding: 20px 15px; }
@@ -406,7 +415,7 @@
 
             .flavor-selection {
                 grid-template-columns: 1fr;
-                align-items: stretch; /* Stacked, so take full width */
+                align-items: stretch; 
             }
             
             .box-config .form-field label { min-height: 0; }
