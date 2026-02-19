@@ -174,6 +174,58 @@
             overflow-y: auto;
         }
 
+        /* --- Instagram Header Section --- */
+        .insta-header {
+            width: 100%;
+            max-width: 500px;
+            background: #faf3f0;
+            border: 1px solid #e9e4dd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .insta-text {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .insta-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #938d84;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .insta-link:hover {
+            transform: scale(1.02);
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 5px;
+            background: white;
+            padding: 5px;
+        }
+
         .order-title {
             font-size: 2.5rem;
             font-weight: 800;
@@ -436,8 +488,8 @@
                 <div class="info-section">
                     <div class="info-title">Available:</div>
                     <div class="info-group">
-                        <div class="info-label">Order: until Tuesday</div>
-                        <div class="info-value">10 P.M.</div>
+                        <div class="info-label">Order: Sun 10:00</div>
+                        <div class="info-value">To Tue 22:00</div>
                     </div>
                     <div class="info-group">
                         <div class="info-label">Delivery: Friday</div>
@@ -450,17 +502,27 @@
 
         <!-- PAGE 2: ORDER PAGE -->
         <div id="page-order">
+            
+            <!-- Instagram / Contact Header -->
+            <div class="insta-header">
+                <p class="insta-text">מתגעגעים אל אחד הטעמים שלנו?<br>תכתבו לנו וניצור איתכם קשר כשהוא יחזור!</p>
+                <a href="https://www.instagram.com/hamarshmelia_by_simona?igsh=MXFpN3M0Y2tzYnJiZw==" target="_blank" class="insta-link">
+                    <span>לאינסטגרם שלנו</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <img src="https://lh3.googleusercontent.com/d/1RNvzg61h14n9vcnHvdlrU7C-uW1EBPhX" alt="Instagram QR Code" class="qr-code">
+            </div>
+
             <h2 class="order-title">פיילוט הזמנות</h2>
             <div class="order-summary">
                 <h3>מידע חשוב להזמנה</h3>
                 <p>• <strong>עבודת יד:</strong> המרשמלו מיוצר בעבודת יד מהמטבח הביתי שלי, ללא חומרים משמרים, צבעי מאכל או חומרי טעם מלאכותיים.</p>
                 <p>• <strong>תכולת מארז:</strong> כל מארז מכיל 6 יחידות מרשמלו בעבודת יד.</p>
                 <p>• <strong>אפשרות ערבוב:</strong> ניתן לבחור טעם אחד (6 יח') או שני טעמים (3+3 יח') בכל מארז.</p>
-                <p>• <strong>מחיר פיילוט:</strong> מארז יחיד ב-40 ש"ח | 3 מארזים ב-100 ש"ח.</p>
-                <p>• <strong>מועד הזמנה:</strong> קבלת הזמנות מסתיימת בכל יום שלישי ב-22:00.</p>
+                <p>• <strong>מחיר פיילוט:</strong> מארז יחיד ב-48 ש"ח | 3 מארזים ב-135 ש"ח.</p>
+                <p>• <strong>מועד הזמנה:</strong> קבלת ההזמנות מתחילה ביום ראשון ב-10:00 ומסתיימת ביום שלישי ב-22:00.</p>
                 <p>• <strong>משלוחים:</strong> חלוקה מתבצעת בימי שישי. ננסה לתאם אספקה מוקדמת בהתאם למלאי.</p>
                 <p>• <strong>אזורי חלוקה:</strong> משלוחים מאשקלון (דרום) עד כפר סבא (צפון) ועד רחובות למזרח.</p>
-                <p>• <strong>יציאה לפועל:</strong> ההזמנות יצאו במידה ויהיו מינימום של 10 הזמנות עד יום שלישי ב-22:00.</p>
             </div>
             
             <form id="order-form" class="form-container">
@@ -489,10 +551,10 @@
                     <label>כמות מארזים</label>
                     <select id="box-count" name="boxCount" onchange="generateBoxFields()">
                         <option value="0">בחרו כמות...</option>
-                        <option value="1">1 מארז (40 ש"ח)</option>
-                        <option value="2">2 מארזים (80 ש"ח)</option>
-                        <option value="3">3 מארזים (100 ש"ח! 🔥)</option>
-                        <option value="4">4 מארזים (140 ש"ח)</option>
+                        <option value="1">1 מארז (48 ש"ח)</option>
+                        <option value="2">2 מארזים (96 ש"ח)</option>
+                        <option value="3">3 מארזים (135 ש"ח! 🔥)</option>
+                        <option value="4">4 מארזים (183 ש"ח)</option>
                     </select>
                 </div>
                 <div id="boxes-container"></div>
@@ -522,7 +584,7 @@
                 <p class="success-detail">
                     תודה רבה על ההזמנה. 
                     <br><br>
-                    אנחנו נעדכן אותך עד יום שלישי ב-22:00 במידה וההזמנה עברה את המינימום (10 הזמנות) ותצא לפועל.
+                    אנחנו ניצור איתך קשר בהקדם לתיאום התשלום והמשלוח.
                 </p>
                 <div class="back-link" onclick="showPage('flyer')" style="margin-top: 20px;">חזרה לדף הבית</div>
             </div>
@@ -531,7 +593,8 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxF45KZbfvsipRfcBqLQ1suUTKlq1Eba3Zfe6WTLNf7w0LAe8Q4hyu8LxtfsP4U23ev0g/exec";
-        const FLAVORS = ["וניל מדגסקר וקרמל עדין", "קוקוס", "דובדבן", "שוקולד חלב", "אננס", "וניל עוגיות"];
+        // UPDATED FLAVOR LIST
+        const FLAVORS = ["טעם החודש - עוגיות אוראו!", "וניל מדגסקר וקרמל עדין", "שוקולד חלב", "אננס"];
 
         function showPage(pageId) {
             if (pageId === 'flyer') {
