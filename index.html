@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פיילוט הזמנות</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Main Flyer Container --- */
+        .flyer-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 4.8 / 5.2; 
+            background-color: #fff;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: flex;
+            border-radius: 12px;
+        }
+
+        #page-flyer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* --- Background Image --- */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://lh3.googleusercontent.com/d/1jGm4fEY2sDSQaK2T2MUrrVkVJoUXs6vi'); 
+            background-size: 120%; 
+            background-position: -70px bottom; 
+            background-repeat: no-repeat;
+            background-color: #ddd;
+            z-index: 1;
+        }
+
+        /* --- Overlay Panel (Desktop) --- */
+        .overlay-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%; 
+            height: 100%;
+            background: rgba(255, 255, 255, 0.45); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2;
+            padding: 50px 0 50px 25px;
+            display: flex;
+            flex-direction: column;
+            color: #000;
+        }
+
+        .headline-container {
+            margin-top: 80px;
+            margin-bottom: 50px;
+        }
+
+        .headline-top {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 0.9;
+            margin-bottom: 2px;
+            padding-left: 5px;
+        }
+
+        .highlight-box {
+            background-color: #938d84; 
+            color: white;
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1;
+            padding: 10px 0 15px 30px;
+            margin-left: -35px; 
+            width: calc(100% + 35px);
+            text-transform: lowercase;
+        }
+
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-right: 25px;
+        }
+
+        .info-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: #1a1a1a;
+        }
+
+        .note {
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 4px;
+            color: #333;
+        }
+
+        .nav-button {
+            margin-top: 15px;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            width: fit-content;
+            border-radius: 4px;
+        }
+
+        .nav-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        /* --- PAGES GENERAL STYLING --- */
+        #page-order, #page-success {
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: right;
+            padding: 40px 20px;
+            background: #ffffff;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            direction: rtl; 
+            font-family: 'Assistant', sans-serif;
+            overflow-y: auto;
+        }
+
+        /* --- Instagram Header Section --- */
+        .insta-header {
+            width: 100%;
+            max-width: 500px;
+            background: #faf3f0;
+            border: 1px solid #e9e4dd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .insta-text {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .insta-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #938d84;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .insta-link:hover {
+            transform: scale(1.02);
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 5px;
+            background: white;
+            padding: 5px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .qr-code:hover {
+            opacity: 0.8;
+        }
+
+        .order-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #938d84;
+            letter-spacing: -1px;
+        }
+
+        .order-summary {
+            background-color: #faf9f8;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #e9e4dd;
+            border-right: 6px solid #938d84;
+        }
+
+        .order-summary h3 {
+            font-size: 1.2rem;
+            color: #7a746b;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field label {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .form-field input, .form-field select, .form-field textarea {
+            padding: 14px;
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.05rem;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            outline: none;
+            border-color: #938d84;
+            box-shadow: 0 0 0 3px rgba(147, 141, 132, 0.1);
+        }
+
+        .box-config {
+            border: 1px solid #e9e4dd;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fcfbf9;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .box-header {
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #938d84;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .flavor-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .box-config .form-field {
+            gap: 4px;
+        }
+
+        .box-config .form-field label {
+            min-height: 1.5em; 
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 0;
+            line-height: 1.2;
+        }
+
+        .flavor-selection select {
+            padding: 10px;
+            font-size: 0.95rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            height: 45px; 
+        }
+
+        .submit-btn {
+            background: #938d84;
+            color: white;
+            border: none;
+            padding: 18px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- Success Page --- */
+        .success-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .marshmallow-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .success-msg {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #938d84;
+        }
+
+        .success-detail {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            margin-top: 40px;
+            color: #938d84;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                background-color: #fff;
+            }
+
+            .flyer-container {
+                flex-direction: column;
+                aspect-ratio: auto;
+                height: 100vh;
+                max-width: 100%;
+                border-radius: 0;
+                overflow-y: auto;
+                box-shadow: none;
+            }
+
+            #page-flyer {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .bg-image {
+                position: relative;
+                width: 100%;
+                height: 30vh; /* Reduced from 35vh to bring content up */
+                background-position: center bottom;
+                background-size: cover; 
+            }
+
+            .overlay-panel {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 70vh;
+                background: white;
+                backdrop-filter: none;
+                padding: 15px 25px 40px 25px; /* Reduced top padding */
+                flex: 1;
+            }
+
+            .headline-container {
+                margin-top: 20px; /* Reduced margin */
+                margin-bottom: 30px;
+            }
+
+            .headline-top { font-size: 2rem; }
+            .highlight-box {
+                font-size: 2.8rem;
+                margin-left: -25px;
+                width: calc(100% + 50px);
+                padding-left: 25px;
+            }
+
+            .info-section {
+                gap: 15px; /* Tighter gap */
+            }
+
+            .nav-button {
+                width: 100%;
+                padding: 16px;
+                font-size: 1rem;
+                margin-top: 10px;
+            }
+
+            #page-order { padding: 20px 15px; }
+            .order-title { font-size: 2rem; }
+            .form-field input, .form-field select, .form-field textarea { font-size: 16px; }
+
+            .flavor-selection {
+                grid-template-columns: 1fr;
+                align-items: stretch; 
+            }
+            
+            .box-config .form-field label { min-height: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flyer-container">
+        <!-- PAGE 1: THE FLYER -->
+        <div id="page-flyer">
+            <div class="bg-image"></div>
+            <div class="overlay-panel">
+                <div class="headline-container">
+                    <div class="headline-top">We are</div>
+                    <div class="highlight-box">open</div>
+                </div>
+                <div class="info-section">
+                    <div class="info-title">Available:</div>
+                    <div class="info-group">
+                        <div class="info-label">Order: Sun 10:00</div>
+                        <div class="info-value">To Tue 22:00</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Delivery: Friday</div>
+                        <div class="note">* Or sooner if available</div>
+                    </div>
+                    <button class="nav-button" onclick="showPage('order')">Order Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: ORDER PAGE -->
+        <div id="page-order">
+            
+            <!-- Instagram / Contact Header -->
+            <div class="insta-header">
+                <p class="insta-text">מתגעגעים אל אחד הטעמים שלנו?<br>תכתבו לנו וניצור איתכם קשר כשהוא יחזור!</p>
+                <a href="https://www.instagram.com/hamarshmelia_by_simona?igsh=MXFpN3M0Y2tzYnJiZw==" target="_blank" class="insta-link">
+                    <span>לאינסטגרם שלנו</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://www.instagram.com/hamarshmelia_by_simona?igsh=MXFpN3M0Y2tzYnJiZw==" target="_blank">
+                    <img src="https://lh3.googleusercontent.com/d/1RNvzg61h14n9vcnHvdlrU7C-uW1EBPhX" alt="Instagram QR Code" class="qr-code">
+                </a>
+            </div>
+
+            <h2 class="order-title">פיילוט הזמנות</h2>
+            <div class="order-summary">
+                <h3>מידע חשוב להזמנה</h3>
+                <p>• <strong>עבודת יד:</strong> המרשמלו מיוצר בעבודת יד מהמטבח הביתי שלי, ללא חומרים משמרים, צבעי מאכל או חומרי טעם מלאכותיים.</p>
+                <p>• <strong>תכולת מארז:</strong> כל מארז מכיל 6 יחידות מרשמלו בעבודת יד.</p>
+                <p>• <strong>אפשרות ערבוב:</strong> ניתן לבחור טעם אחד (6 יח') או שני טעמים (3+3 יח') בכל מארז.</p>
+                <p>• <strong>מחיר פיילוט:</strong> מארז יחיד ב-48 ש"ח | 3 מארזים ב-135 ש"ח.</p>
+                <p>• <strong>מועד הזמנה:</strong> קבלת ההזמנות מתחילה ביום ראשון ב-10:00 ומסתיימת ביום שלישי ב-22:00.</p>
+                <p>• <strong>משלוחים:</strong> חלוקה מתבצעת בימי שישי. ננסה לתאם אספקה מוקדמת בהתאם למלאי.</p>
+                <p>• <strong>אזורי חלוקה:</strong> משלוחים מאשקלון (דרום) עד כפר סבא (צפון) ועד רחובות למזרח.</p>
+            </div>
+            
+            <form id="order-form" class="form-container">
+                <div class="form-field">
+                    <label>שם מלא</label>
+                    <input type="text" name="fullName" required placeholder="הכניסו שם...">
+                </div>
+                <div class="form-field">
+                    <label>מספר טלפון</label>
+                    <input type="tel" name="phone" required placeholder="05x-xxxxxxx">
+                </div>
+                <div class="form-field">
+                    <label>כתובת מלאה למשלוח</label>
+                    <input type="text" name="address" required placeholder="עיר, רחוב, מספר בית...">
+                </div>
+                <div class="form-field">
+                    <label>שיטת תשלום מועדפת</label>
+                    <select name="paymentMethod" required>
+                        <option value="">בחרו אמצעי תשלום...</option>
+                        <option value="cash">מזומן</option>
+                        <option value="bit">Bit</option>
+                        <option value="paybox">Paybox</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>כמות מארזים</label>
+                    <select id="box-count" name="boxCount" onchange="generateBoxFields()">
+                        <option value="0">בחרו כמות...</option>
+                        <option value="1">1 מארז (48 ש"ח)</option>
+                        <option value="2">2 מארזים (96 ש"ח)</option>
+                        <option value="3">3 מארזים (135 ש"ח! 🔥)</option>
+                        <option value="4">4 מארזים (183 ש"ח)</option>
+                    </select>
+                </div>
+                <div id="boxes-container"></div>
+                <div class="form-field">
+                    <label>הערות נוספות</label>
+                    <textarea name="notes" placeholder="בקשות מיוחדות, קוד כניסה לבניין וכו'..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-button">שלח הזמנה עכשיו</button>
+            </form>
+            <div class="back-link" onclick="showPage('flyer')">← חזרה למודעה</div>
+        </div>
+
+        <!-- PAGE 3: SUCCESS PAGE -->
+        <div id="page-success">
+            <div class="success-content">
+                <svg class="marshmallow-icon" viewBox="0 0 100 100">
+                    <rect x="25" y="30" width="50" height="45" rx="10" fill="#faf3f0" stroke="#938d84" stroke-width="2" />
+                    <path d="M25 40 Q50 35 75 40" fill="none" stroke="#eee" stroke-width="1" />
+                    <circle cx="40" cy="50" r="2" fill="#938d84" />
+                    <circle cx="60" cy="50" r="2" fill="#938d84" />
+                    <path d="M45 60 Q50 63 55 60" fill="none" stroke="#938d84" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="35" cy="55" r="3" fill="#ffd1dc" opacity="0.6" />
+                    <circle cx="65" cy="55" r="3" fill="#ffd1dc" opacity="0.6" />
+                </svg>
+                
+                <h2 class="success-msg">ההזמנה התקבלה בהצלחה!</h2>
+                <p class="success-detail">
+                    תודה רבה על ההזמנה. 
+                    <br><br>
+                    אנחנו ניצור איתך קשר בהקדם לתיאום התשלום והמשלוח.
+                </p>
+                <div class="back-link" onclick="showPage('flyer')" style="margin-top: 20px;">חזרה לדף הבית</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxF45KZbfvsipRfcBqLQ1suUTKlq1Eba3Zfe6WTLNf7w0LAe8Q4hyu8LxtfsP4U23ev0g/exec";
+        // UPDATED FLAVOR LIST - Added Cherry (דובדבן)
+        const FLAVORS = ["טעם החודש - עוגיות אוראו", "קוקוס", "דובדבן", "אננס", "שוקולד חלב"];
+
+        function showPage(pageId) {
+            if (pageId === 'flyer') {
+                document.getElementById('page-flyer').style.display = ''; 
+                document.getElementById('page-order').style.display = 'none';
+                document.getElementById('page-success').style.display = 'none';
+            } else if (pageId === 'order') {
+                document.getElementById('page-flyer').style.display = 'none';
+                document.getElementById('page-order').style.display = 'flex';
+                document.getElementById('page-success').style.display = 'none';
+                document.getElementById('page-order').scrollTop = 0;
+            } else if (pageId === 'success') {
+                document.getElementById('page-flyer').style.display = 'none';
+                document.getElementById('page-order').style.display = 'none';
+                document.getElementById('page-success').style.display = 'flex';
+                document.getElementById('page-success').scrollTop = 0;
+            }
+        }
+
+        function generateBoxFields() {
+            const count = parseInt(document.getElementById('box-count').value);
+            const container = document.getElementById('boxes-container');
+            container.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const boxDiv = document.createElement('div');
+                boxDiv.className = 'box-config';
+                let optionsHtml = FLAVORS.map(f => `<option value="${f}">${f}</option>`).join('');
+                boxDiv.innerHTML = `
+                    <div class="box-header">מארז ${i} <span style="font-weight:400; font-size:0.9rem; color:#aaa;">| 6 יחידות</span></div>
+                    <div class="flavor-selection">
+                        <div class="form-field"><label>טעם א' (3 יח')</label><select name="box${i}_flavor1">${optionsHtml}</select></div>
+                        <div class="form-field"><label>טעם ב' (3 יח')</label><select name="box${i}_flavor2"><option value="none">ללא (טעם א' בלבד)</option>${optionsHtml}</select></div>
+                    </div>`;
+                container.appendChild(boxDiv);
+            }
+        }
+
+        document.getElementById('order-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-button');
+            btn.disabled = true;
+            btn.textContent = "שולח...";
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+            data.timestamp = new Date().toLocaleString();
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                showPage('success');
+                this.reset();
+                document.getElementById('boxes-container').innerHTML = '';
+            } catch (error) {
+                console.error('Error!', error.message);
+                alert("אירעה שגיאה בשליחה. נסה שוב.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "שלח הזמנה עכשיו";
+            }
+        });
+    </script>
+</body>
+</html>
