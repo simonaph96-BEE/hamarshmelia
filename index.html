@@ -427,7 +427,7 @@
             .bg-image {
                 position: relative;
                 width: 100%;
-                height: 30vh; /* Reduced from 35vh to bring content up */
+                height: 30vh; 
                 background-position: center bottom;
                 background-size: cover; 
             }
@@ -439,12 +439,12 @@
                 min-height: 70vh;
                 background: white;
                 backdrop-filter: none;
-                padding: 15px 25px 40px 25px; /* Reduced top padding */
+                padding: 15px 25px 40px 25px; 
                 flex: 1;
             }
 
             .headline-container {
-                margin-top: 20px; /* Reduced margin */
+                margin-top: 20px; 
                 margin-bottom: 30px;
             }
 
@@ -457,7 +457,7 @@
             }
 
             .info-section {
-                gap: 15px; /* Tighter gap */
+                gap: 15px; 
             }
 
             .nav-button {
@@ -601,24 +601,29 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxF45KZbfvsipRfcBqLQ1suUTKlq1Eba3Zfe6WTLNf7w0LAe8Q4hyu8LxtfsP4U23ev0g/exec";
-        // UPDATED FLAVOR LIST - Added Cherry (דובדבן)
-        const FLAVORS = ["טעם החודש - עוגיות אוראו", "קוקוס", "דובדבן", "אננס", "שוקולד חלב"];
+        
+        // FLAVOR CONFIGURATION
+        const FLAVORS = [
+            { name: "טעם החודש - וניל עוגיות חמאה", available: true },
+            { name: "עוגיות אוראו", available: true },
+            { name: "קוקוס", available: true },
+            { name: "דובדבן", available: true },
+            { name: "אננס", available: true },
+            { name: "שוקולד חלב", available: true },
+            { name: "משמש (נגמר המלאי)", available: false }
+        ];
 
         function showPage(pageId) {
-            if (pageId === 'flyer') {
-                document.getElementById('page-flyer').style.display = ''; 
-                document.getElementById('page-order').style.display = 'none';
-                document.getElementById('page-success').style.display = 'none';
-            } else if (pageId === 'order') {
-                document.getElementById('page-flyer').style.display = 'none';
-                document.getElementById('page-order').style.display = 'flex';
-                document.getElementById('page-success').style.display = 'none';
-                document.getElementById('page-order').scrollTop = 0;
-            } else if (pageId === 'success') {
-                document.getElementById('page-flyer').style.display = 'none';
-                document.getElementById('page-order').style.display = 'none';
-                document.getElementById('page-success').style.display = 'flex';
-                document.getElementById('page-success').scrollTop = 0;
+            const flyer = document.getElementById('page-flyer');
+            const order = document.getElementById('page-order');
+            const success = document.getElementById('page-success');
+            
+            flyer.style.display = (pageId === 'flyer') ? '' : 'none';
+            order.style.display = (pageId === 'order') ? 'flex' : 'none';
+            success.style.display = (pageId === 'success') ? 'flex' : 'none';
+            
+            if (pageId !== 'flyer') {
+                document.getElementById('page-' + pageId).scrollTop = 0;
             }
         }
 
@@ -626,15 +631,30 @@
             const count = parseInt(document.getElementById('box-count').value);
             const container = document.getElementById('boxes-container');
             container.innerHTML = '';
+            
             for (let i = 1; i <= count; i++) {
                 const boxDiv = document.createElement('div');
                 boxDiv.className = 'box-config';
-                let optionsHtml = FLAVORS.map(f => `<option value="${f}">${f}</option>`).join('');
+                
+                // Helper to create options including disabled ones
+                const getOptionsHtml = (isOptional) => {
+                    let html = isOptional ? '<option value="none">ללא (טעם א\' בלבד)</option>' : '';
+                    return html + FLAVORS.map(f => 
+                        `<option value="${f.name}" ${f.available ? '' : 'disabled'}>${f.name}</option>`
+                    ).join('');
+                };
+
                 boxDiv.innerHTML = `
                     <div class="box-header">מארז ${i} <span style="font-weight:400; font-size:0.9rem; color:#aaa;">| 6 יחידות</span></div>
                     <div class="flavor-selection">
-                        <div class="form-field"><label>טעם א' (3 יח')</label><select name="box${i}_flavor1">${optionsHtml}</select></div>
-                        <div class="form-field"><label>טעם ב' (3 יח')</label><select name="box${i}_flavor2"><option value="none">ללא (טעם א' בלבד)</option>${optionsHtml}</select></div>
+                        <div class="form-field">
+                            <label>טעם א' (3 יח')</label>
+                            <select name="box${i}_flavor1" required>${getOptionsHtml(false)}</select>
+                        </div>
+                        <div class="form-field">
+                            <label>טעם ב' (3 יח')</label>
+                            <select name="box${i}_flavor2">${getOptionsHtml(true)}</select>
+                        </div>
                     </div>`;
                 container.appendChild(boxDiv);
             }
